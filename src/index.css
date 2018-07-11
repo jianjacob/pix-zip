@@ -42,9 +42,15 @@ body {
   margin: 30px 0px 10px 0px;
   padding: 10px;
   border-radius: 10px;
-  min-height: 400px;
   width: 40%;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.drop-item {
+  margin-top: 10px;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed red;
 }
 
 .search-input {
@@ -64,10 +70,35 @@ body {
   width: 70%;
 }
 
+.drop-zone {
+  height: 450px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .search-images {
   margin-top: 20px;
   padding: 5px;
-  min-height: 200px;
+  height: 400px;
+  overflow: auto;
+}
+
+.download-zip {
+  display: block;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: orangered;
+  color: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.empty-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
 }
 
 .footer {

@@ -9,6 +9,9 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+
 const API_URL = "https://pixabay.com/api/";
 
 class App extends Component {
@@ -17,7 +20,8 @@ class App extends Component {
 
     this.state = {
       search: "",
-      images: []
+      images: [],
+      library: []
     };
   }
 
@@ -45,28 +49,32 @@ class App extends Component {
 
   render() {
     return (
-      // Logo and nav
       <div className="app">
-        <div className="app-header">
-          <h1 className="app-title">pix-zip</h1>
-          <div className="app-intro">
-            <p>Image search for developers made easy!</p>
-            <ol>
-              <li>Search royalty-free images on popular search engines</li>
-              <li>Drag and drop your favorite images into the zip library</li>
-              <li>
-                Download a compressed zip archive containing the pictures you
-                chose
-              </li>
-            </ol>
-          </div>
-        </div>
+        {/* Logo and nav */}
+        <Header />
 
         <div className="container">
+          {/* Drop container and UI */}
           <div className="drop">
-            <p>Drop UI</p>
+            <div className="drop-zone">
+              <GridList cellHeight={100} cols={5}>
+                {this.state.library.map((img, i) => (
+                  <GridListTile key={i} cols={1}>
+                    <img src={img.previewURL} alt="" />
+                    <GridListTileBar
+                      subtitle={<span>by: {img.user}</span>}
+                      style={{ textAlign: "left", height: "20px" }}
+                    />
+                  </GridListTile>
+                ))}
+              </GridList>
+            </div>
+            <a href="#" className="download-zip">
+              Download ZIP
+            </a>
           </div>
 
+          {/* Search container and UI */}
           <div className="search">
             <div>
               <input
@@ -107,15 +115,13 @@ class App extends Component {
                   ))}
                 </GridList>
               ) : (
-                <p>Empty</p>
+                <p className="empty-title">Empty</p>
               )}
             </div>
           </div>
         </div>
 
-        <div className="footer">
-          <p>Copyright 2018</p>
-        </div>
+        <Footer />
       </div>
     );
   }
