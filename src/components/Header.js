@@ -14,6 +14,18 @@ const Header = () => {
           </li>
         </ol>
       </div>
+      <div style={{ marginBottom: "10px" }}>
+        <a
+          className="github-button"
+          href="https://github.com/jianjacob/pix-zip"
+          data-icon="octicon-star"
+          data-size="large"
+          data-show-count="true"
+          aria-label="Star jianjacob/pix-zip on GitHub"
+        >
+          GitHub
+        </a>
+      </div>
     </div>
   );
 };
