@@ -139,7 +139,6 @@ body {
 }
 
 .drag-ui__search {
-  border: 1px solid red;
   display: grid;
   grid-auto-flow: row;
   justify-content: center;
@@ -147,7 +146,7 @@ body {
   justify-items: center;
   grid-gap: 20px;
   transition: all 1s ease-in;
-  height: 100%;
+  flex-grow: 1;
 }
 
 .drag-ui__search-icon {
@@ -181,10 +180,20 @@ body {
   animation: search-zone 0.7s ease-in-out forwards;
 }
 
+.drag-ui {
+  display: flex;
+  flex-direction: column;
+}
+
 .drag-ui__images {
   opacity: 0;
-  border: 1px solid yellow;
-  height: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-gap: 10px;
+  align-items: center;
+  justify-items: center;
+  overflow: auto;
+  flex-basis: 0;
 }
 
 .drag-ui__images--transition {
@@ -208,15 +217,24 @@ body {
 
 @keyframes search-zone {
   100% {
-    height: 40px;
     grid-gap: 0;
+    flex-grow: 0;
   }
 }
 
 @keyframes search-images {
   100% {
     opacity: 1;
-    height: calc(100% - 40px);
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 1125px) {
+  @keyframes search-images {
+    100% {
+      opacity: 1;
+      flex-basis: 400px;
+    }
   }
 }
 

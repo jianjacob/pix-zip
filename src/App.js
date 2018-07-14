@@ -81,30 +81,31 @@ class App extends Component {
   };
 
   handleSearch = e => {
-    this.setState({ search: e.target.value }, () => {
-      fetch(
-        `${API_URL}?key=${keys.pixabay}&q=${
-          this.state.search
-        }&image_type=photo&pretty=false&safesearch=true`
-      )
-        .then(res => res.json())
-        .then(res => {
-          if (!this.state.images[this.state.search]) {
-            this.setState({
-              images: { ...this.state.images, [this.state.search]: res.hits }
-            });
-          }
-        });
-    });
-    // if (e.target.value === "") {
-    //   this.setState({
-    //     images: []
-    //   });
-    // } else {
-    //   this.setState({
-    //     images: dummy.hits
-    //   });
-    // }
+    // this.setState({ search: e.target.value }, () => {
+    //   fetch(
+    //     `${API_URL}?key=${keys.pixabay}&q=${
+    //       this.state.search
+    //     }&image_type=photo&pretty=false&safesearch=true`
+    //   )
+    //     .then(res => res.json())
+    //     .then(res => {
+    //       if (!this.state.images[this.state.search]) {
+    //         this.setState({
+    //           images: { ...this.state.images, [this.state.search]: res.hits }
+    //         });
+    //       }
+    //     });
+    // });
+    this.setState({ search: e.target.value });
+    if (e.target.value === "") {
+      this.setState({
+        images: []
+      });
+    } else {
+      this.setState({
+        images: dummy.hits
+      });
+    }
   };
 
   deleteImage = e => {
@@ -114,9 +115,12 @@ class App extends Component {
   render() {
     return (
       <div className="wrapper">
-        {/* Logo and nav */}
+        {/* Header */}
         <Header />
+
+        {/*Main App */}
         <div className="app">
+          {/*Drop UI */}
           <div className="drop-ui">
             <div className="drop-ui__title">Library</div>
             <div className="drop-ui__zone">
@@ -128,6 +132,7 @@ class App extends Component {
               IT!
             </div>
           </div>
+          {/*Drag UI */}
           <div className="drag-ui">
             <div
               className={classNames("drag-ui__search", {
@@ -158,10 +163,16 @@ class App extends Component {
                 "drag-ui__images--transition": this.state.search.length > 0
               })}
             >
-              images
+              {this.state.images.length > 0
+                ? this.state.images.map((img, i) => {
+                    return <img key={i} src={img.previewURL} />;
+                  })
+                : ""}
             </div>
           </div>
         </div>
+
+        {/* Footer */}
         <Footer />
       </div>
     );
