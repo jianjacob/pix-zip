@@ -1,21 +1,17 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import keys from "./keys";
 import dummy from "./dummy";
 
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import addIcon from "./img/add-icon.png";
+import searchIcon from "./img/search-icon.png";
+import zipIcon from "./img/download-icon.png";
 
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import classNames from "classnames";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { Icon } from "@material-ui/core";
 
 const API_URL = "https://pixabay.com/api/";
 
@@ -117,104 +113,55 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="wrapper">
         {/* Logo and nav */}
         <Header />
-
-        <div className="container">
-          {/* Drop container and UI */}
-          <div className="drop">
-            <div
-              className="drop-zone"
-              onDragOver={this.handleDragOver}
-              onDrop={this.handleDrop}
-            >
-              {this.state.library.length > 0 ? (
-                <GridList cellHeight={100} cols={5}>
-                  {this.state.library.map((img, i) => (
-                    <GridListTile key={i} cols={1}>
-                      <img src={img.previewURL} alt="" draggable={false} />
-                      <GridListTileBar
-                        titlePosition="top"
-                        style={{
-                          height: "30px",
-                          backgroundColor: "rgba(0, 0, 0, 0.2)"
-                        }}
-                        actionIcon={
-                          <IconButton onClick={this.deleteImage}>
-                            <DeleteForeverIcon
-                              style={{ color: "rgba(255, 0, 0, 1)" }}
-                            />
-                          </IconButton>
-                        }
-                      />
-                    </GridListTile>
-                  ))}
-                </GridList>
-              ) : (
-                <div className="drop-placeholder" draggable={false}>
-                  Drop Here
-                </div>
-              )}
+        <div className="app">
+          <div className="drop-ui">
+            <div className="drop-ui__title">Library</div>
+            <div className="drop-ui__zone">
+              <img className="drop-ui__add-icon" src={addIcon} alt="Add icon" />
+              <p>Drop pictures here</p>
             </div>
-            <a className="download-zip" onClick={this.handleZip}>
-              Download ZIP
-            </a>
+            <div className="drop-ui__download">
+              <img className="drop-ui__zip-icon" src={zipIcon} alt="" />PIX-ZIP
+              IT!
+            </div>
           </div>
-
-          {/* Search container and UI */}
-          <div className="search">
-            <div>
+          <div className="drag-ui">
+            <div
+              className={classNames("drag-ui__search", {
+                "drag-ui__search--transition": this.state.search.length > 0
+              })}
+            >
+              <img
+                className={classNames("drag-ui__search-icon", {
+                  "drag-ui__search-icon--transition":
+                    this.state.search.length > 0
+                })}
+                src={searchIcon}
+                alt="Search icon"
+              />
               <input
-                className="search-input"
+                className={classNames("drag-ui__search-input", {
+                  "drag-ui__search-input--transition":
+                    this.state.search.length > 0
+                })}
                 type="text"
-                placeholder="search images"
+                placeholder="Type to search..."
                 value={this.state.search}
                 onChange={this.handleSearch}
               />
             </div>
-            <div className="search-images">
-              {this.state.images[this.state.search] &&
-              this.state.images[this.state.search].length > 0 ? (
-                <GridList cellHeight={160} cols={3}>
-                  <GridListTile
-                    key="Subheader"
-                    cols={3}
-                    style={{ height: "auto" }}
-                  >
-                    <ListSubheader component="div">
-                      Results for: {this.state.search}
-                    </ListSubheader>
-                  </GridListTile>
-                  {this.state.images[this.state.search].map((img, i) => (
-                    <GridListTile key={i} cols={1}>
-                      <img
-                        id={i}
-                        src={img.previewURL}
-                        alt=""
-                        onDragStart={this.handleDragStart}
-                      />
-                      <GridListTileBar
-                        subtitle={<span>by: {img.user}</span>}
-                        actionIcon={
-                          <IconButton>
-                            <InfoIcon
-                              style={{ color: "rgba(255, 255, 255, 0.54)" }}
-                            />
-                          </IconButton>
-                        }
-                        style={{ textAlign: "left" }}
-                      />
-                    </GridListTile>
-                  ))}
-                </GridList>
-              ) : (
-                <p className="empty-title">Empty</p>
-              )}
+            <div
+              className={classNames("drag-ui__images", {
+                "drag-ui__images--transition": this.state.search.length > 0
+              })}
+            >
+              images
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     );

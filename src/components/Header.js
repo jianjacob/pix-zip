@@ -1,31 +1,28 @@
 import React from "react";
 
+import logo from "../img/logo.png";
+
 const Header = () => {
   return (
-    <div className="app-header">
-      <h1 className="app-title">pix-zip</h1>
-      <div className="app-intro">
-        <p>Image search for developers made easy!</p>
-        <ol>
-          <li>Search royalty-free images on popular search engines</li>
-          <li>Drag and drop your favorite images into the zip library</li>
-          <li>
-            Download a compressed zip archive containing the pictures you chose
-          </li>
-        </ol>
-      </div>
-      <div style={{ marginBottom: "10px" }}>
-        <a
-          className="github-button"
-          href="https://github.com/jianjacob/pix-zip"
-          data-icon="octicon-star"
-          data-size="large"
-          data-show-count="true"
-          aria-label="Star jianjacob/pix-zip on GitHub"
-        >
-          GitHub
-        </a>
-      </div>
+    <div className="header">
+      <header className="header__semantic">
+        <h1 className="header__h1--hidden">Pix-Zip</h1>
+        <img className="header__logo" src={logo} alt="Pix-Zip" />
+        <h5 className="header__subtitle">
+          The Image Search App for Developers
+        </h5>
+        <div className="header__feature-banner">
+          <div className="header__feature-one">
+            <p>Search for images using powerful API</p>
+          </div>
+          <div className="header__feature-two">
+            <p>Drag and drop your favorite images into the library</p>
+          </div>
+          <div className="header__feature-three">
+            <p>Download all images into a single ZIP file</p>
+          </div>
+        </div>
+      </header>
     </div>
   );
 };

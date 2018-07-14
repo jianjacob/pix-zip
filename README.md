@@ -14,14 +14,14 @@ PixZip allows you to search for images on popular search engines and download th
 
 ## ToDo
 
-- [x] Create mockup
-- [x] Set up ~~APIs~~ (Currently supporting Pixabay only)
-- [x] Implement search feature
-- [x] Implement drag and drop interface
-- [x] Implement local image library interface
-- [x] Implement ZIP archiving
-- [x] Local caching
-- [ ] Major design overhaul
+- [x] ~~Create mockup~~ (Temporarily disabled during design overhaul)
+- [x] ~~Set up ~~APIs~~ (Currently supporting Pixabay only)~~ (Temporarily disabled during design overhaul)
+- [x] ~~Implement search feature~~ (Temporarily disabled during design overhaul)
+- [x] ~~Implement drag and drop interface~~ (Temporarily disabled during design overhaul)
+- [x] ~~Implement local image library interface~~ (Temporarily disabled during design overhaul)
+- [x] ~~Implement ZIP archiving~~ (Temporarily disabled during design overhaul)
+- [x] ~~Local caching~~ (Temporarily disabled during design overhaul)
+- [ ] Major design overhaul (in progress)
 - [ ] Improve search implementation
 - [ ] Improve Drag and Drop UI
 - [ ] Caching through Firestore
