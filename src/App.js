@@ -123,10 +123,30 @@ class App extends Component {
           {/*Drop UI */}
           <div className="drop-ui">
             <div className="drop-ui__title">Library</div>
-            <div className="drop-ui__zone">
-              <img className="drop-ui__add-icon" src={addIcon} alt="Add icon" />
-              <p>Drop pictures here</p>
-            </div>
+            {this.state.images.length > 0 ? (
+              <div className="drop-ui__images">
+                {this.state.images.map((img, i) => {
+                  return (
+                    <div key={i} className="drop-ui__img">
+                      <img src={img.previewURL} />
+                      <i className="drop-ui__img--delete material-icons">
+                        clear
+                      </i>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="drop-ui__zone">
+                <img
+                  className="drop-ui__add-icon"
+                  src={addIcon}
+                  alt="Add icon"
+                />
+                <p>Drop pictures here</p>
+              </div>
+            )}
+
             <div className="drop-ui__download">
               <img className="drop-ui__zip-icon" src={zipIcon} alt="" />PIX-ZIP
               IT!

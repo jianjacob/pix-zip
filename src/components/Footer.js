@@ -1,5 +1,7 @@
 import React from "react";
 
+import pixabay from "../img/pixabay.png";
+
 const Footer = () => {
   return (
     <div className="footer">
@@ -17,6 +19,9 @@ const Footer = () => {
             ReactJS
           </a>.
         </span>
+        <a href="https://pixabay.com">
+          <img className="footer__pixabay" src={pixabay} alt="Pixabay logo" />
+        </a>
       </footer>
     </div>
   );
