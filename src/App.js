@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import keys from "./keys";
-import dummy from "./dummy";
 
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
@@ -12,6 +10,8 @@ import DropUI from "./components/Drop-UI/DropUI";
 import DragUI from "./components/Drag-UI/DragUI";
 
 const API_URL = "https://pixabay.com/api/";
+
+const API_KEY = process.env.pixabay;
 
 class App extends Component {
   constructor(props) {
@@ -105,9 +105,7 @@ class App extends Component {
   handleFetch = query => {
     if (query.trim() !== "") {
       fetch(
-        `${API_URL}?key=${
-          keys.pixabay
-        }&q=${query}&image_type=photo&pretty=false&safesearch=true`
+        `${API_URL}?key=${API_KEY}&q=${query}&image_type=photo&pretty=false&safesearch=true`
       )
         .then(res => res.json())
         .then(res => {
