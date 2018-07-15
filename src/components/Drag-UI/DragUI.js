@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 
+import Modal from "../Modal";
+
 import searchIcon from "../../img/search-icon.png";
 
 import classNames from "classnames";
@@ -7,7 +9,27 @@ import classNames from "classnames";
 class DragUI extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showModal: false,
+      modalURL: ""
+    };
   }
+
+  handleModal = url => {
+    this.setState({
+      showModal: true,
+      modalURL: url
+    });
+  };
+
+  handleModalClose = () => {
+    this.setState({
+      showModal: false,
+      modalURL: ""
+    });
+  };
+
   render() {
     return (
       <div className="drag-ui">
@@ -52,7 +74,10 @@ class DragUI extends Component {
                     />
                     <span className="drag-ui__img-user">
                       by: <a href={img.pageURL}>{img.user}</a>{" "}
-                      <i className="drag-ui__img--open material-icons">
+                      <i
+                        className="drag-ui__img--open material-icons"
+                        onClick={() => this.handleModal(img.largeImageURL)}
+                      >
                         zoom_in
                       </i>
                     </span>
@@ -61,6 +86,12 @@ class DragUI extends Component {
               })
             : ""}
         </div>
+        {this.state.showModal && (
+          <Modal
+            url={this.state.modalURL}
+            handleModalClose={this.handleModalClose}
+          />
+        )}
       </div>
     );
   }
