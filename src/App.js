@@ -14,7 +14,7 @@ const API_URL = "https://pixabay.com/api/";
 
 const env = runtimeEnv();
 
-const API_KEY = env.pixabay;
+const API_KEY = env.REACT_APP_PIXABAY;
 
 class App extends Component {
   constructor(props) {
