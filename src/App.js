@@ -10,11 +10,11 @@ import Footer from "./components/Footer";
 import DropUI from "./components/Drop-UI/DropUI";
 import DragUI from "./components/Drag-UI/DragUI";
 
-const API_URL = "https://pixabay.com/api/";
-
 const env = runtimeEnv();
 
-const API_KEY = env.REACT_APP_PIXABAY;
+const API_URL = "https://pixabay.com/api/";
+
+const API_KEY = env.REACT_APP_PIXABAY || require("./keys").pixabay;
 
 class App extends Component {
   constructor(props) {
@@ -38,22 +38,17 @@ class App extends Component {
     let imgArray = images || this.state.library.map(obj => obj.largeImageURL);
 
     if (index < imgArray.length) {
-      console.log("fetching ", imgArray[index]);
       this.setState({ zip_index: index + 1 });
       fetch(imgArray[index])
         .then(res => {
-          console.log("fetched " + index);
           return res.arrayBuffer();
         })
         .then(buffer => {
-          console.log("zipping " + index);
           var filename = this.getFileName(imgArray[index++]);
           this.state.zip.file(filename, buffer); // image has loaded, add it to archive
           this.zipImages(imgArray, index); // load next image
-          console.log("zipped ");
         });
     } else {
-      console.log("zipping...");
       this.state.zip.generateAsync({ type: "blob" }).then(content => {
         saveAs(content, "pix-zip.zip");
       });
@@ -90,7 +85,6 @@ class App extends Component {
   };
 
   handleDrop = e => {
-    console.log(e.dataTransfer.getData("text"));
     this.setState({
       library: [
         ...this.state.library,

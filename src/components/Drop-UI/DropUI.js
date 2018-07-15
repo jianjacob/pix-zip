@@ -13,7 +13,6 @@ class DropUI extends Component {
   render() {
     return (
       <div className="drop-ui">
-        <div className="drop-ui__title">Library</div>
         {this.props.library.length > 0 ? (
           <div
             className="drop-ui__images"
@@ -45,10 +44,7 @@ class DropUI extends Component {
             {this.props.zip_index}/{this.props.library.length}
           </div>
         ) : this.props.library.length === 0 ? (
-          <div className="drop-ui__download drop-ui__download--disable">
-            <img className="drop-ui__zip-icon" src={zipIcon} alt="" />PIX-ZIP
-            IT!
-          </div>
+          ""
         ) : (
           <div className="drop-ui__download" onClick={this.props.handleZip}>
             <img className="drop-ui__zip-icon" src={zipIcon} alt="" />PIX-ZIP

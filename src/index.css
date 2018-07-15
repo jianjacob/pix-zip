@@ -10,7 +10,7 @@ body {
   font-family: "Lato", Tahoma, Verdana, sans-serif;
   background: url("./img/bg.png") #2e3641 bottom left no-repeat;
   background-size: cover;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: lighter;
 }
 
@@ -60,24 +60,28 @@ a:hover {
   background-color: var(--main-grey);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-items: center;
   grid-auto-flow: row;
   grid-gap: 5px;
-  padding: 20px 20px 0 20px;
+  padding: 20px 0 0 20px;
 }
 
 .header__feature-one {
   background: url("./img/header-icon-1.png") no-repeat center top;
   padding-top: 50px;
+  width: 250px;
 }
 
 .header__feature-two {
   background: url("./img/header-icon-2.png") no-repeat center top;
   padding-top: 50px;
+  width: 250px;
 }
 
 .header__feature-three {
   background: url("./img/header-icon-3.png") no-repeat center top;
   padding-top: 50px;
+  width: 250px;
 }
 
 /* Main App */
@@ -86,14 +90,13 @@ a:hover {
   padding: 30px;
   display: grid;
   grid-gap: 50px;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
 
 .drag-ui,
 .drop-ui {
   padding: 10px;
   background-color: rgba(245, 245, 245, 0.8);
-  border-radius: 10px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
@@ -109,29 +112,39 @@ a:hover {
   opacity: 0.8;
 }
 
-.drop-ui__title {
+/* .drop-ui__title {
   text-align: center;
   background: linear-gradient(#4b4b4b, #343434);
   border-radius: 10px 10px 0 0;
 
   padding: 5px 0;
-}
+} */
 
 .drop-ui__images {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-gap: 10px;
+  justify-content: center;
   justify-items: start;
   align-content: flex-start;
   align-items: center;
   overflow: auto;
+  background-color: rgba(255, 255, 255, 0.5);
   flex-basis: 0;
   flex-grow: 1;
   padding: 10px;
+  margin: 10px 10px 0 10px;
 }
 
 .drop-ui__img {
   position: relative;
+}
+
+.drop-ui__img > img {
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  border: 2px dashed red;
 }
 
 .drop-ui__img--delete {
@@ -145,6 +158,7 @@ a:hover {
   color: whitesmoke;
   background-color: rgb(204, 5, 5);
   border-radius: 50%;
+  border: 2px solid white;
   cursor: pointer;
   transition: all 0.3s ease-out;
 }
@@ -159,12 +173,12 @@ a:hover {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: linear-gradient(#62c8ec, #0084b4);
+  background-color: rgb(18, 174, 212);
   background-size: 1px 200px;
-  border-radius: 0 0 10px 10px;
   padding: 10px 0;
   transition: background 0.7s ease-out;
   cursor: pointer;
+  margin: 0 10px 10px 10px;
 }
 
 .drop-ui__download--disable {
@@ -198,7 +212,7 @@ a:hover {
 }
 
 .drop-ui__download:hover {
-  background-position: 100px;
+  background-color: rgb(15, 199, 231);
 }
 
 .drop-ui__download:hover .drop-ui__zip-icon {
@@ -224,6 +238,7 @@ a:hover {
   color: var(--main-grey);
   font-style: italic;
   flex-grow: 1;
+  margin: 10px;
 }
 
 .drag-ui__search {
@@ -251,7 +266,6 @@ a:hover {
   text-align: center;
   padding: 20px;
   min-width: 400px;
-  border-radius: 20px;
   border: 0px;
   outline: none;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
@@ -277,35 +291,34 @@ a:hover {
 .drag-ui__images {
   opacity: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 10px;
-  align-items: center;
+  justify-content: center;
   justify-items: center;
+  align-content: flex-start;
+  align-items: center;
   overflow: auto;
   flex-basis: 0;
+  margin: 10px;
   padding: 10px;
 }
 
 .drag-ui__img-container {
-  background-color: rgba(255, 255, 255, 0.5);
-  object-fit: "cover";
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
   position: relative;
 }
 
 .drag-ui__img {
-  width: 100%;
+  object-fit: cover;
+  width: 250px;
+  height: 250px;
 }
 
 .drag-ui__img-user {
   position: absolute;
   z-index: 1;
-  bottom: 0;
+  bottom: 5px;
   left: 0;
-  font-size: 0.8em;
+  font-size: 0.7em;
   padding: 20px;
   background-color: rgba(0, 0, 0, 0.5);
   width: calc(100% - 40px);
@@ -336,7 +349,7 @@ a:hover {
 @keyframes search {
   100% {
     padding: 10px;
-    transform: scale(0.7);
+    transform: scale(0.9);
   }
 }
 
