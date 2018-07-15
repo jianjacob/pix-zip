@@ -2,16 +2,13 @@ import React, { Component } from "react";
 import keys from "./keys";
 import dummy from "./dummy";
 
-import addIcon from "./img/add-icon.png";
-import searchIcon from "./img/search-icon.png";
-import zipIcon from "./img/download-icon.png";
-
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import classNames from "classnames";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import DropUI from "./components/Drop-UI/DropUI";
+import DragUI from "./components/Drag-UI/DragUI";
 
 const API_URL = "https://pixabay.com/api/";
 
@@ -23,8 +20,9 @@ class App extends Component {
       search: "",
       images: {},
       library: [],
-      index: 0,
-      zip: null
+      zip_index: 0,
+      zip: null,
+      dragging: false
     };
   }
 
@@ -32,17 +30,26 @@ class App extends Component {
     let imgArray = images || this.state.library.map(obj => obj.largeImageURL);
 
     if (index < imgArray.length) {
+      console.log("fetching ", imgArray[index]);
+      this.setState({ zip_index: index + 1 });
       fetch(imgArray[index])
-        .then(res => res.arrayBuffer())
+        .then(res => {
+          console.log("fetched " + index);
+          return res.arrayBuffer();
+        })
         .then(buffer => {
+          console.log("zipping " + index);
           var filename = this.getFileName(imgArray[index++]);
           this.state.zip.file(filename, buffer); // image has loaded, add it to archive
           this.zipImages(imgArray, index); // load next image
+          console.log("zipped ");
         });
     } else {
+      console.log("zipping...");
       this.state.zip.generateAsync({ type: "blob" }).then(content => {
         saveAs(content, "pix-zip.zip");
       });
+      this.setState({ zip_index: 0 });
     }
   };
 
@@ -63,10 +70,15 @@ class App extends Component {
 
   handleDragStart = e => {
     e.dataTransfer.setData("text", e.target.id);
+    this.setState({
+      dragging: true
+    });
   };
 
   handleDragOver = e => {
-    e.preventDefault();
+    if (this.state.zip_index === 0 && this.state.dragging) {
+      e.preventDefault();
+    }
   };
 
   handleDrop = e => {
@@ -75,41 +87,51 @@ class App extends Component {
       library: [
         ...this.state.library,
         this.state.images[this.state.search][e.dataTransfer.getData("text")]
-      ]
+      ],
+      dragging: false
     });
     e.dataTransfer.clearData();
   };
 
-  handleSearch = e => {
-    // this.setState({ search: e.target.value }, () => {
-    //   fetch(
-    //     `${API_URL}?key=${keys.pixabay}&q=${
-    //       this.state.search
-    //     }&image_type=photo&pretty=false&safesearch=true`
-    //   )
-    //     .then(res => res.json())
-    //     .then(res => {
-    //       if (!this.state.images[this.state.search]) {
-    //         this.setState({
-    //           images: { ...this.state.images, [this.state.search]: res.hits }
-    //         });
-    //       }
-    //     });
-    // });
-    this.setState({ search: e.target.value });
-    if (e.target.value === "") {
-      this.setState({
-        images: []
-      });
-    } else {
-      this.setState({
-        images: dummy.hits
-      });
-    }
+  handleDragEnd = () => {
+    this.setState({ dragging: false });
   };
 
-  deleteImage = e => {
-    console.log(e);
+  handleSearch = e => {
+    this.setState({ search: e.target.value }, () => {
+      fetch(
+        `${API_URL}?key=${keys.pixabay}&q=${
+          this.state.search
+        }&image_type=photo&pretty=false&safesearch=true`
+      )
+        .then(res => res.json())
+        .then(res => {
+          if (!this.state.images[this.state.search]) {
+            this.setState({
+              images: { ...this.state.images, [this.state.search]: res.hits }
+            });
+          }
+        });
+    });
+    // this.setState({ search: e.target.value });
+    // if (e.target.value === "") {
+    //   this.setState({
+    //     images: []
+    //   });
+    // } else {
+    //   this.setState({
+    //     images: dummy.hits
+    //   });
+    // }
+  };
+
+  deleteImage = index => {
+    this.setState({
+      library: [
+        ...this.state.library.slice(0, index),
+        ...this.state.library.slice(index + 1)
+      ]
+    });
   };
 
   render() {
@@ -121,75 +143,23 @@ class App extends Component {
         {/*Main App */}
         <div className="app">
           {/*Drop UI */}
-          <div className="drop-ui">
-            <div className="drop-ui__title">Library</div>
-            {this.state.images.length > 0 ? (
-              <div className="drop-ui__images">
-                {this.state.images.map((img, i) => {
-                  return (
-                    <div key={i} className="drop-ui__img">
-                      <img src={img.previewURL} />
-                      <i className="drop-ui__img--delete material-icons">
-                        clear
-                      </i>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="drop-ui__zone">
-                <img
-                  className="drop-ui__add-icon"
-                  src={addIcon}
-                  alt="Add icon"
-                />
-                <p>Drop pictures here</p>
-              </div>
-            )}
-
-            <div className="drop-ui__download">
-              <img className="drop-ui__zip-icon" src={zipIcon} alt="" />PIX-ZIP
-              IT!
-            </div>
-          </div>
+          <DropUI
+            images={this.state.images}
+            handleDragOver={this.handleDragOver}
+            handleDrop={this.handleDrop}
+            library={this.state.library}
+            handleZip={this.handleZip}
+            zip_index={this.state.zip_index}
+            deleteImage={this.deleteImage}
+          />
           {/*Drag UI */}
-          <div className="drag-ui">
-            <div
-              className={classNames("drag-ui__search", {
-                "drag-ui__search--transition": this.state.search.length > 0
-              })}
-            >
-              <img
-                className={classNames("drag-ui__search-icon", {
-                  "drag-ui__search-icon--transition":
-                    this.state.search.length > 0
-                })}
-                src={searchIcon}
-                alt="Search icon"
-              />
-              <input
-                className={classNames("drag-ui__search-input", {
-                  "drag-ui__search-input--transition":
-                    this.state.search.length > 0
-                })}
-                type="text"
-                placeholder="Type to search..."
-                value={this.state.search}
-                onChange={this.handleSearch}
-              />
-            </div>
-            <div
-              className={classNames("drag-ui__images", {
-                "drag-ui__images--transition": this.state.search.length > 0
-              })}
-            >
-              {this.state.images.length > 0
-                ? this.state.images.map((img, i) => {
-                    return <img key={i} src={img.previewURL} />;
-                  })
-                : ""}
-            </div>
-          </div>
+          <DragUI
+            images={this.state.images}
+            search={this.state.search}
+            handleSearch={this.handleSearch}
+            handleDragStart={this.handleDragStart}
+            handleDragEnd={this.handleDragEnd}
+          />
         </div>
 
         {/* Footer */}
