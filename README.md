@@ -14,6 +14,8 @@ PixZip allows you to search for images on popular search engines and download th
 
 > #### Usage: Clone or download the repo. Create a file named keys.js and return an object containing your Pixabay API key.
 
+> Or visit https://pix-zip.herokuapp.com/ for latest stable build
+
 ## ToDo
 
 - [x] Create mockup~~
@@ -27,6 +29,6 @@ PixZip allows you to search for images on popular search engines and download th
 - [x] Improve search implementation
 - [x] Improve Drag and Drop UI
 - [ ] Caching through Firestore
-- [ ] Build and publish
+- [x] Build and publish (https://pix-zip.herokuapp.com/)
 - [ ] Pagination
 - [ ] more(?)..
