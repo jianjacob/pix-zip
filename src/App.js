@@ -4,6 +4,7 @@ import dummy from "./dummy";
 
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import _ from "lodash";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -24,6 +25,10 @@ class App extends Component {
       zip: null,
       dragging: false
     };
+
+    this.handleSearchDebounced = _.debounce(function() {
+      this.handleFetch.apply(this, [this.state.search]);
+    }, 500);
   }
 
   zipImages = (images, index) => {
@@ -97,21 +102,27 @@ class App extends Component {
     this.setState({ dragging: false });
   };
 
-  handleSearch = e => {
-    this.setState({ search: e.target.value }, () => {
+  handleFetch = query => {
+    if (query.trim() !== "") {
       fetch(
-        `${API_URL}?key=${keys.pixabay}&q=${
-          this.state.search
-        }&image_type=photo&pretty=false&safesearch=true`
+        `${API_URL}?key=${
+          keys.pixabay
+        }&q=${query}&image_type=photo&pretty=false&safesearch=true`
       )
         .then(res => res.json())
         .then(res => {
-          if (!this.state.images[this.state.search]) {
+          if (!this.state.images[query]) {
             this.setState({
-              images: { ...this.state.images, [this.state.search]: res.hits }
+              images: { ...this.state.images, [query]: res.hits }
             });
           }
         });
+    }
+  };
+
+  handleSearch = e => {
+    this.setState({ search: e.target.value }, () => {
+      this.handleSearchDebounced();
     });
     // this.setState({ search: e.target.value });
     // if (e.target.value === "") {
