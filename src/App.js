@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import _ from "lodash";
+import runtimeEnv from "@mars/heroku-js-runtime-env";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -11,7 +12,9 @@ import DragUI from "./components/Drag-UI/DragUI";
 
 const API_URL = "https://pixabay.com/api/";
 
-const API_KEY = process.env.pixabay;
+const env = runtimeEnv();
+
+const API_KEY = env.pixabay;
 
 class App extends Component {
   constructor(props) {
