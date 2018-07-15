@@ -1,6 +1,6 @@
 import React from "react";
 
-import addIcon from "../../img/add-icon.png";
+import addIcon from "../../img/add-icon-2.png";
 
 export default props => {
   return (
