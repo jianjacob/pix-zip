@@ -424,16 +424,20 @@ a:hover {
   height: 100%;
 }
 
-.modal__image--hide {
+.modal__image--hide,
+.drop-ui__img--hide,
+.drag-ui__img--hide {
   display: none;
 }
 
-.modal__spinner {
+.modal__spinner,
+.drop-ui__img-spinner,
+.drag-ui__img-spinner {
   display: block;
   z-index: 100;
   width: 25px;
   height: 25px;
-  margin: 20px;
+  margin: 0 auto;
   border: 2px solid rgba(255, 255, 255, 0.411);
   border-left: 3px solid var(--main-grey);
   border-bottom: 3px solid var(--main-grey);

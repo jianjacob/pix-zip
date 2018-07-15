@@ -23,9 +23,10 @@ PixZip allows you to search for images on popular search engines and download th
 - [x] Implement local image library interface
 - [x] Implement ZIP archiving
 - [x] Local caching
-- [ ] Major design overhaul (in progress)
+- [x] Major design overhaul
 - [x] Improve search implementation
 - [x] Improve Drag and Drop UI
 - [ ] Caching through Firestore
 - [ ] Build and publish
+- [ ] Pagination
 - [ ] more(?)..

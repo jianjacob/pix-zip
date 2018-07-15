@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
 import zipIcon from "../../img/download-icon.png";
-import addIcon from "../../img/add-icon.png";
+
+import Placeholder from "./Placeholder";
+import Image from "./Image";
 
 class DropUI extends Component {
   constructor(props) {
@@ -20,31 +22,21 @@ class DropUI extends Component {
           >
             {this.props.library.map((img, i) => {
               return (
-                <div key={i} className="drop-ui__img">
-                  <img src={img.previewURL} draggable={false} />
-                  {this.props.zip_index > 0 ? (
-                    <i className="drop-ui__img--delete material-icons">clear</i>
-                  ) : (
-                    <i
-                      className="drop-ui__img--delete material-icons"
-                      onClick={() => this.props.deleteImage(i)}
-                    >
-                      clear
-                    </i>
-                  )}
-                </div>
+                <Image
+                  key={i}
+                  source={img.previewURL}
+                  zip_index={this.props.zip_index}
+                  deleteImage={this.props.deleteImage}
+                  index={i}
+                />
               );
             })}
           </div>
         ) : (
-          <div
-            className="drop-ui__zone"
-            onDragOver={this.props.handleDragOver}
-            onDrop={this.props.handleDrop}
-          >
-            <img className="drop-ui__add-icon" src={addIcon} alt="Add icon" />
-            <p>Drop pictures here</p>
-          </div>
+          <Placeholder
+            handleDragOver={this.props.handleDragOver}
+            handleDrop={this.props.handleDrop}
+          />
         )}
 
         {this.props.zip_index > 0 ? (
