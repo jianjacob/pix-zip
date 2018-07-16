@@ -16,7 +16,7 @@ import DragUI from "./components/Drag-UI/DragUI";
 const env = runtimeEnv();
 
 // private key
-const API_KEY = env.REACT_APP_PIXABAY; //|| require("./keys").pixabay;
+const API_KEY = env.REACT_APP_PIXABAY; // || require("./keys").pixabay;
 
 const API_URL = "https://pixabay.com/api/";
 
@@ -91,6 +91,7 @@ class App extends Component {
   };
 
   handleDrop = e => {
+    e.preventDefault();
     this.setState({
       library: [
         ...this.state.library,
@@ -98,7 +99,6 @@ class App extends Component {
       ],
       dragging: false
     });
-    e.dataTransfer.clearData();
   };
 
   // ensures only images from application has valid droppable state
