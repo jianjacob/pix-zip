@@ -18,7 +18,7 @@ PixZip allows you to search for images on popular search engines and download th
 
 ## ToDo
 
-- [x] Create mockup~~
+- [x] Create mockup
 - [x] Set up ~~APIs~~ (Currently supporting Pixabay only)
 - [x] Implement search feature
 - [x] Implement drag and drop interface

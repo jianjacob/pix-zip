@@ -2,7 +2,7 @@ import React from "react";
 
 import addIcon from "../../img/add-icon-2.png";
 
-export default props => {
+const Placeholder = props => {
   return (
     <div
       className="drop-ui__zone"
@@ -14,3 +14,5 @@ export default props => {
     </div>
   );
 };
+
+export default Placeholder;

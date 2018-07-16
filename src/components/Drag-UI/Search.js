@@ -4,7 +4,7 @@ import searchIcon from "../../img/search-icon.png";
 
 import classNames from "classnames";
 
-export default props => {
+const Search = props => {
   return (
     <div
       className={classNames("drag-ui__search", {
@@ -30,3 +30,5 @@ export default props => {
     </div>
   );
 };
+
+export default Search;

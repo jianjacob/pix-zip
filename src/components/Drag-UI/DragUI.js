@@ -61,6 +61,7 @@ class DragUI extends Component {
               })
             : ""}
         </div>
+        {/* Load Modal component but keep hidden until required */}
         {this.state.showModal && (
           <Modal
             url={this.state.modalURL}

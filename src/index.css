@@ -8,7 +8,7 @@ body {
   box-sizing: border-box;
   color: white;
   font-family: "Lato", Tahoma, Verdana, sans-serif;
-  background: url("./img/bg.png") #2e3641 bottom left no-repeat;
+  background: url("./img/bg.png") #4081a5 bottom left no-repeat;
   background-size: cover;
   font-size: 20px;
   font-weight: lighter;
@@ -46,11 +46,13 @@ a:hover {
 
 .header__logo {
   justify-self: center;
+  width: 250px;
 }
 
 .header__subtitle {
   padding: 0;
   margin: 0;
+  font-size: 0.9em;
   font-weight: normal;
   margin-bottom: 10px;
   text-shadow: -3px 3px 0px rgba(0, 0, 0, 0.2);
@@ -63,6 +65,7 @@ a:hover {
   justify-items: center;
   grid-auto-flow: row;
   grid-gap: 5px;
+  margin-top: 5px;
   padding: 20px 0 0 20px;
 }
 
@@ -101,8 +104,6 @@ a:hover {
 }
 
 .drop-ui {
-  /* display: grid;
-  grid-template-rows: auto minmax(300px, 1fr) auto; */
   display: flex;
   flex-direction: column;
 }
@@ -111,14 +112,6 @@ a:hover {
 .drag-ui__search-icon {
   opacity: 0.8;
 }
-
-/* .drop-ui__title {
-  text-align: center;
-  background: linear-gradient(#4b4b4b, #343434);
-  border-radius: 10px 10px 0 0;
-
-  padding: 5px 0;
-} */
 
 .drop-ui__images {
   display: grid;
@@ -234,6 +227,7 @@ a:hover {
   align-items: center;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.5);
+  min-height: 400px;
   height: 100%;
   color: var(--main-grey);
   font-style: italic;
@@ -244,6 +238,7 @@ a:hover {
 .drag-ui__search {
   display: grid;
   grid-auto-flow: row;
+  grid-auto-columns: minmax(400px, 1fr);
   justify-content: center;
   align-content: center;
   justify-items: center;
@@ -263,9 +258,9 @@ a:hover {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1em;
   font-weight: lighter;
+  width: 50%;
   text-align: center;
   padding: 20px;
-  min-width: 400px;
   border: 0px;
   outline: none;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
@@ -350,6 +345,7 @@ a:hover {
   100% {
     padding: 10px;
     transform: scale(0.9);
+    width: 40%;
   }
 }
 
@@ -369,7 +365,11 @@ a:hover {
   }
 }
 
-@media (max-width: 1125px) {
+@media (max-width: 959px) {
+  body {
+    background: #2e3641;
+  }
+
   @keyframes search-images {
     100% {
       opacity: 1;
@@ -384,15 +384,19 @@ a:hover {
   }
 
   .footer__pixabay {
-    transform: scale(0.8);
+    width: 150px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer__pixabay {
+    width: 120px;
   }
 }
 
 /* Footer */
 
 .footer {
-  /* background: url("./img/pixabay.png") no-repeat;
-  background-position: 95% 15px; */
   position: relative;
   background-color: var(--main-grey);
   text-align: center;

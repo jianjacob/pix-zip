@@ -28,7 +28,6 @@ class Modal extends Component {
             })}
             src={this.props.url}
             onLoad={this.handleLoad}
-            alt=""
           />
         </div>
       </div>

@@ -11,6 +11,15 @@ const Header = () => {
         <h5 className="header__subtitle">
           The Image Search App for Developers
         </h5>
+        <a
+          className="github-button header__github"
+          href="https://github.com/jianjacob/pix-zip"
+          data-icon="octicon-star"
+          data-show-count="true"
+          aria-label="Star jianjacob/pix-zip on GitHub"
+        >
+          Star
+        </a>
         <div className="header__feature-banner">
           <div className="header__feature-one">
             <p>Search for images using powerful API</p>

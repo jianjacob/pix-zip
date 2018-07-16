@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 
+// importing libraries
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import _ from "lodash";
+// for private runtime vars from heroku
 import runtimeEnv from "@mars/heroku-js-runtime-env";
 
+// import components
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import DropUI from "./components/Drop-UI/DropUI";
@@ -12,9 +15,10 @@ import DragUI from "./components/Drag-UI/DragUI";
 
 const env = runtimeEnv();
 
-const API_URL = "https://pixabay.com/api/";
-
+// private key
 const API_KEY = env.REACT_APP_PIXABAY; //|| require("./keys").pixabay;
+
+const API_URL = "https://pixabay.com/api/";
 
 class App extends Component {
   constructor(props) {
@@ -29,6 +33,7 @@ class App extends Component {
       dragging: false
     };
 
+    // debounced search to prevent unnecessary API calls
     this.handleSearchDebounced = _.debounce(function() {
       this.handleFetch.apply(this, [this.state.search]);
     }, 500);
@@ -45,7 +50,7 @@ class App extends Component {
         })
         .then(buffer => {
           var filename = this.getFileName(imgArray[index++]);
-          this.state.zip.file(filename, buffer); // image has loaded, add it to archive
+          this.state.zip.file(filename, buffer);
           this.zipImages(imgArray, index); // load next image
         });
     } else {
@@ -78,6 +83,7 @@ class App extends Component {
     });
   };
 
+  // only allow images from application to be dragged and dropped
   handleDragOver = e => {
     if (this.state.zip_index === 0 && this.state.dragging) {
       e.preventDefault();
@@ -95,12 +101,14 @@ class App extends Component {
     e.dataTransfer.clearData();
   };
 
+  // ensures only images from application has valid droppable state
   handleDragEnd = () => {
     this.setState({ dragging: false });
   };
 
   handleFetch = query => {
     if (query.trim() !== "") {
+      // prevent empty string search to API
       fetch(
         `${API_URL}?key=${API_KEY}&q=${query}&image_type=photo&pretty=false&safesearch=true`
       )
@@ -119,16 +127,6 @@ class App extends Component {
     this.setState({ search: e.target.value }, () => {
       this.handleSearchDebounced();
     });
-    // this.setState({ search: e.target.value });
-    // if (e.target.value === "") {
-    //   this.setState({
-    //     images: []
-    //   });
-    // } else {
-    //   this.setState({
-    //     images: dummy.hits
-    //   });
-    // }
   };
 
   deleteImage = index => {
