@@ -8,6 +8,8 @@ PixZip allows you to search for images on popular search engines and download th
 
 ## Features (Easy as 1, 2, 3)
 
+[![Image from Gyazo](https://i.gyazo.com/cb8583d314cba209ed7ee27bda2d5601.gif)](https://gyazo.com/cb8583d314cba209ed7ee27bda2d5601)
+
 1.  ### Search royalty-free images on popular search engines
 2.  ### Drag and drop your favorite images into the zip library
 3.  ### Download a compressed zip archive containing the pictures you chose
@@ -32,3 +34,7 @@ PixZip allows you to search for images on popular search engines and download th
 - [x] Build and publish (https://pix-zip.herokuapp.com/)
 - [ ] Pagination
 - [ ] more(?)..
+
+## License and Contributions
+
+MIT license. All contributions, forks, improvements are welcome!
