@@ -16,7 +16,7 @@ import DragUI from "./components/Drag-UI/DragUI";
 const env = runtimeEnv();
 
 // private key
-const API_KEY = env.REACT_APP_PIXABAY || require("./keys").pixabay;
+const API_KEY = env.REACT_APP_PIXABAY; // || require("./keys").pixabay;
 
 const API_URL = "https://pixabay.com/api/";
 
