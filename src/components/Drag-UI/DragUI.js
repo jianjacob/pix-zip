@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import Modal from "../Modal";
 import Search from "./Search";
@@ -50,8 +50,6 @@ class DragUI extends Component {
                     key={i}
                     source={img.webformatURL}
                     index={i}
-                    handleDragStart={this.props.handleDragStart}
-                    handleDragEnd={this.props.handleDragEnd}
                     pageUrl={img.pageURL}
                     user={img.user}
                     handleModal={this.handleModal}

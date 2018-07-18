@@ -16,9 +16,13 @@ import DragUI from "./components/Drag-UI/DragUI";
 const env = runtimeEnv();
 
 // private key
-const API_KEY = env.REACT_APP_PIXABAY; // || require("./keys").pixabay;
+const API_KEY = env.REACT_APP_PIXABAY || require("./keys").pixabay;
 
 const API_URL = "https://pixabay.com/api/";
+
+// Context creation to store Drag and Drop feature implementation
+export const DragContext = React.createContext();
+export const DropContext = React.createContext();
 
 class App extends Component {
   constructor(props) {
@@ -61,6 +65,7 @@ class App extends Component {
     }
   };
 
+  // helper method for zip creation
   getFileName = url => {
     return url.substr(url.lastIndexOf("/") + 1);
   };
@@ -68,6 +73,7 @@ class App extends Component {
   handleZip = () => {
     this.setState(
       {
+        // zip needs to be created early
         zip: new JSZip()
       },
       () => {
@@ -76,39 +82,9 @@ class App extends Component {
     );
   };
 
-  handleDragStart = e => {
-    e.dataTransfer.setData("text", e.target.id);
-    this.setState({
-      dragging: true
-    });
-  };
-
-  // only allow images from application to be dragged and dropped
-  handleDragOver = e => {
-    if (this.state.zip_index === 0 && this.state.dragging) {
-      e.preventDefault();
-    }
-  };
-
-  handleDrop = e => {
-    e.preventDefault();
-    this.setState({
-      library: [
-        ...this.state.library,
-        this.state.images[this.state.search][e.dataTransfer.getData("text")]
-      ],
-      dragging: false
-    });
-  };
-
-  // ensures only images from application has valid droppable state
-  handleDragEnd = () => {
-    this.setState({ dragging: false });
-  };
-
   handleFetch = query => {
     if (query.trim() !== "") {
-      // prevent empty string search to API
+      // prevent empty search param to API
       fetch(
         `${API_URL}?key=${API_KEY}&q=${query}&image_type=photo&pretty=false&safesearch=true`
       )
@@ -146,24 +122,59 @@ class App extends Component {
 
         {/*Main App */}
         <div className="app">
-          {/*Drop UI */}
-          <DropUI
-            images={this.state.images}
-            handleDragOver={this.handleDragOver}
-            handleDrop={this.handleDrop}
-            library={this.state.library}
-            handleZip={this.handleZip}
-            zip_index={this.state.zip_index}
-            deleteImage={this.deleteImage}
-          />
-          {/*Drag UI */}
-          <DragUI
-            images={this.state.images}
-            search={this.state.search}
-            handleSearch={this.handleSearch}
-            handleDragStart={this.handleDragStart}
-            handleDragEnd={this.handleDragEnd}
-          />
+          {/*Drop UI and setup */}
+          <DropContext.Provider
+            value={{
+              // only allow images from application to be dragged and dropped
+              handleDragOver: e => {
+                if (this.state.zip_index === 0 && this.state.dragging) {
+                  e.preventDefault();
+                }
+              },
+              handleDrop: e => {
+                e.preventDefault();
+                this.setState({
+                  library: [
+                    ...this.state.library,
+                    this.state.images[this.state.search][
+                      e.dataTransfer.getData("text")
+                    ]
+                  ],
+                  dragging: false
+                });
+              }
+            }}
+          >
+            <DropUI
+              images={this.state.images}
+              library={this.state.library}
+              handleZip={this.handleZip}
+              zip_index={this.state.zip_index}
+              deleteImage={this.deleteImage}
+            />
+          </DropContext.Provider>
+
+          {/*Drag UI and setup */}
+          <DragContext.Provider
+            value={{
+              handleDragStart: e => {
+                e.dataTransfer.setData("text", e.target.id);
+                this.setState({
+                  dragging: true
+                });
+              },
+              // ensures only images from application have valid droppable state
+              handleDragEnd: () => {
+                this.setState({ dragging: false });
+              }
+            }}
+          >
+            <DragUI
+              images={this.state.images}
+              search={this.state.search}
+              handleSearch={this.handleSearch}
+            />
+          </DragContext.Provider>
         </div>
 
         {/* Footer */}
