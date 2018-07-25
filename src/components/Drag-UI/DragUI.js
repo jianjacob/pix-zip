@@ -38,9 +38,11 @@ class DragUI extends Component {
           handleSearch={this.props.handleSearch}
         />
         <div
+          id="scrollable"
           className={classNames("drag-ui__images", {
             "drag-ui__images--transition": this.props.search.length > 0
           })}
+          onWheel={this.props.handleScroll}
         >
           {this.props.images[this.props.search] &&
           this.props.images[this.props.search].length > 0

@@ -34,12 +34,14 @@ class App extends Component {
       library: [],
       zip_index: 0,
       zip: null,
-      dragging: false
+      dragging: false,
+      page: 1,
+      fetching: false
     };
 
     // debounced search to prevent unnecessary API calls
     this.handleSearchDebounced = _.debounce(function() {
-      this.handleFetch.apply(this, [this.state.search]);
+      this.handleFetch.apply(this, [this.state.search, 1, false]);
     }, 500);
   }
 
@@ -82,20 +84,51 @@ class App extends Component {
     );
   };
 
-  handleFetch = query => {
-    if (query.trim() !== "") {
-      // prevent empty search param to API
-      fetch(
-        `${API_URL}?key=${API_KEY}&q=${query}&image_type=photo&pretty=false&safesearch=true`
-      )
-        .then(res => res.json())
-        .then(res => {
-          if (!this.state.images[query]) {
+  handleFetch = (query, page, scrolling) => {
+    if (!this.state.fetching && query.trim() !== "") {
+      this.setState(
+        {
+          fetching: true
+        },
+        () => {
+          if (query.trim() !== "" && (!this.state.images[query] || scrolling)) {
+            // prevent empty search param to API
+            fetch(
+              `${API_URL}?key=${API_KEY}&q=${query}&image_type=photo&pretty=false&safesearch=true&page=${page}`
+            )
+              .then(res => res.json())
+              .then(res => {
+                if (!scrolling) {
+                  this.setState(prev => ({
+                    images: { ...prev.images, [query]: res.hits },
+                    page: page,
+                    fetching: false
+                  }));
+                } else {
+                  this.setState(prev => {
+                    return {
+                      images: {
+                        ...prev.images,
+                        [query]: [...prev.images[query], ...res.hits]
+                      },
+                      page: page,
+                      fetching: false
+                    };
+                  });
+                }
+              })
+              .catch(err => {
+                this.setState({
+                  fetching: false
+                });
+              });
+          } else {
             this.setState({
-              images: { ...this.state.images, [query]: res.hits }
+              fetching: false
             });
           }
-        });
+        }
+      );
     }
   };
 
@@ -112,6 +145,17 @@ class App extends Component {
         ...this.state.library.slice(index + 1)
       ]
     });
+  };
+
+  // handle infinite scrolling
+  handleScroll = () => {
+    let el = document.getElementById("scrollable");
+    if (el.offsetHeight + el.scrollTop >= el.scrollHeight - 200) {
+      // load next page of results from API
+      if (!this.state.fetching) {
+        this.handleFetch(this.state.search, this.state.page + 1, true);
+      }
+    }
   };
 
   render() {
@@ -173,6 +217,7 @@ class App extends Component {
               images={this.state.images}
               search={this.state.search}
               handleSearch={this.handleSearch}
+              handleScroll={this.handleScroll}
             />
           </DragContext.Provider>
         </div>
